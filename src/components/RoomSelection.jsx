@@ -121,6 +121,16 @@ const Conference = () => {
 
   const items = getItemsFromTotalCost();
 
+  const formatCurrency = (value) => {
+    if (typeof value !== "number") value = Number(value) || 0;
+    return value.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+
   const ItemsDisplay = ({ items }) => {
     console.log(items);
     return (
@@ -140,7 +150,7 @@ const Conference = () => {
               {items.map((item, index) => (
                 <tr key={index}>
                   <td>{item.name}</td>
-                  <td>${item.cost}</td>
+                  <td>{formatCurrency(item.cost)}</td>
                   <td>
                     {item.type === "meals" || item.numberOfPeople
                       ? ` For ${numberOfPeople} people`
@@ -148,8 +158,8 @@ const Conference = () => {
                   </td>
                   <td>
                     {item.type === "meals" || item.numberOfPeople
-                      ? `${item.cost * numberOfPeople}`
-                      : `${item.cost * item.quantity}`}
+                      ? formatCurrency(item.cost * numberOfPeople)
+                      : formatCurrency(item.cost * item.quantity)}
                   </td>
                 </tr>
               ))}
@@ -198,7 +208,7 @@ const Conference = () => {
                       <img src={item.img} alt={item.name} />
                     </div>
                     <div className="text">{item.name}</div>
-                    <div>${item.cost}</div>
+                    <div>{formatCurrency(item.cost)}</div>
                     <div className="button_container">
                       {venueItems[index].name ===
                       "Auditorium Hall (Capacity:200)" ? (
@@ -262,7 +272,7 @@ const Conference = () => {
                   </div>
                 ))}
               </div>
-              <div className="total_cost">Total Cost: ${venueTotalCost}</div>
+              <div className="total_cost">Total Cost: {formatCurrency(venueTotalCost)}</div>
             </div>
             
             <div id="addons" className="venue_container container_main">
@@ -276,7 +286,7 @@ const Conference = () => {
                       <img src={item.img} alt={item.name} />
                     </div>
                     <div className="text">{item.name}</div>
-                    <div>${item.cost}</div>
+                    <div>{formatCurrency(item.cost)}</div>
                     <div className="addons_btn">
                       <button
                         className="btn-warning"
@@ -295,7 +305,7 @@ const Conference = () => {
                   </div>
                 ))}
               </div>
-              <div className="total_cost">Total Cost: {avTotalCost}</div>
+              <div className="total_cost">Total Cost: {formatCurrency(avTotalCost)}</div>
             </div>
 
             <div id="meals" className="venue_container container_main">
@@ -333,12 +343,12 @@ const Conference = () => {
                         />
                         <label htmlFor={`meal_${index}`}>{item.name}</label>
                       </div>
-                      <div className="meal_cost">${item.cost}</div>
+                      <div className="meal_cost">{formatCurrency(item.cost)}</div>
                     </div>
                   );
                 })}
               </div>
-              <div className="total_cost">Total Cost: {mealsTotalCost}</div>
+              <div className="total_cost">Total Cost: {formatCurrency(mealsTotalCost)}</div>
             </div>
           </div>
         ) : (
